@@ -51,6 +51,13 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
+// a virutal propery. not stored in the database but a relationship between two entities. Lets mongoose know how the two are related
+userSchema.virtual('tasks', {
+  ref: 'Task',
+  localField: '_id', // associated with the _id of the user
+  foreignField: 'owner', // the name of the field on the other object that creates the relationship, which we set to the owner
+});
+
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
   const token = jwt.sign({ _id: user._id.toString() }, 'thisismynewcourse');
