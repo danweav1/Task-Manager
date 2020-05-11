@@ -61,6 +61,18 @@ userSchema.methods.generateAuthToken = async function () {
   return token;
 };
 
+// doesn't need to be async because we aren't using any async functions (await)
+userSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+
+  // the below two lines allow us to remove properties that are being sent back, for use with private data
+  delete userObject.password;
+  delete userObject.tokens;
+
+  return userObject;
+};
+
 userSchema.statics.findByCredentials = async (email, password) => {
   const user = await User.findOne({ email });
   if (!user) {
