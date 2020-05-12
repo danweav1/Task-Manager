@@ -51,6 +51,9 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
+    avatar: {
+      type: Buffer,
+    },
   },
   {
     timestamps: true,
@@ -82,6 +85,7 @@ userSchema.methods.toJSON = function () {
   // the below two lines allow us to remove properties that are being sent back, for use with private data
   delete userObject.password;
   delete userObject.tokens;
+  delete userObject.avatar;
 
   return userObject;
 };
